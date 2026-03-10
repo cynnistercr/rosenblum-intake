@@ -1,0 +1,1118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Estate Planning Intake – Rosenblum Law</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #1a2a4a;
+    --navy-dark: #0f1d35;
+    --navy-light: #243658;
+    --gold: #c9a84c;
+    --gold-light: #e8c97a;
+    --white: #ffffff;
+    --off-white: #f7f8fc;
+    --gray-light: #e8eaf0;
+    --gray: #9aa0b0;
+    --text: #2c3347;
+    --success: #2e7d5e;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Source Sans 3', sans-serif;
+    background: var(--off-white);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* HEADER */
+  .header {
+    background: var(--navy-dark);
+    padding: 18px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.25);
+  }
+  .header-logo {
+    display: flex;
+    align-items: center;
+    gap: 0;
+  }
+  .logo-img {
+    height: 44px;
+    width: auto;
+    display: block;
+    filter: brightness(0) invert(1);
+  }
+  .logo-divider {
+    width: 1px;
+    height: 32px;
+    background: rgba(255,255,255,0.2);
+    margin: 0 16px;
+  }
+  .logo-sub {
+    color: var(--gold-light);
+    font-size: 11px;
+    font-family: 'Source Sans 3', sans-serif;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .header-phone {
+    color: var(--gold-light);
+    font-size: 14px;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .header-phone:hover { color: var(--white); }
+
+  /* PROGRESS */
+  .progress-container {
+    background: var(--navy);
+    padding: 16px 32px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  }
+  .progress-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  .progress-section-name {
+    color: var(--gold-light);
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+  .progress-count {
+    color: var(--gray);
+    font-size: 13px;
+  }
+  .progress-bar-track {
+    height: 4px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--gold), var(--gold-light));
+    border-radius: 2px;
+    transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* MAIN */
+  .main {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 48px 20px;
+  }
+  .card {
+    background: var(--white);
+    border-radius: 16px;
+    box-shadow: 0 4px 32px rgba(26,42,74,0.10);
+    padding: 48px;
+    max-width: 680px;
+    width: 100%;
+    animation: slideIn 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .section-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(26,42,74,0.07);
+    color: var(--navy);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 5px 12px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+  }
+  .section-badge-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--gold);
+  }
+
+  .question-label {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    font-weight: 600;
+    color: var(--navy-dark);
+    line-height: 1.35;
+    margin-bottom: 10px;
+  }
+  .question-hint {
+    color: var(--gray);
+    font-size: 14px;
+    margin-bottom: 28px;
+    line-height: 1.5;
+  }
+  .tooltip-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: rgba(201,168,76,0.12);
+    color: var(--gold);
+    border: none;
+    border-radius: 12px;
+    padding: 4px 10px;
+    font-size: 12px;
+    cursor: pointer;
+    margin-bottom: 24px;
+    font-family: 'Source Sans 3', sans-serif;
+    transition: background 0.2s;
+  }
+  .tooltip-btn:hover { background: rgba(201,168,76,0.22); }
+  .tooltip-box {
+    background: var(--navy-dark);
+    color: var(--white);
+    border-radius: 10px;
+    padding: 16px 20px;
+    font-size: 14px;
+    line-height: 1.6;
+    margin-bottom: 24px;
+    display: none;
+    border-left: 3px solid var(--gold);
+  }
+  .tooltip-box.visible { display: block; }
+
+  /* INPUTS */
+  .input-group {
+    margin-bottom: 20px;
+  }
+  .input-group label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--navy);
+    margin-bottom: 7px;
+    letter-spacing: 0.3px;
+  }
+  .input-group input,
+  .input-group select,
+  .input-group textarea {
+    width: 100%;
+    padding: 14px 16px;
+    border: 2px solid var(--gray-light);
+    border-radius: 10px;
+    font-size: 16px;
+    font-family: 'Source Sans 3', sans-serif;
+    color: var(--text);
+    background: var(--white);
+    transition: border-color 0.2s, box-shadow 0.2s;
+    outline: none;
+    -webkit-appearance: none;
+  }
+  .input-group input:focus,
+  .input-group select:focus,
+  .input-group textarea:focus {
+    border-color: var(--navy);
+    box-shadow: 0 0 0 3px rgba(26,42,74,0.08);
+  }
+  .input-group textarea { min-height: 100px; resize: vertical; }
+  .input-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  @media (max-width: 520px) {
+    .input-row { grid-template-columns: 1fr; }
+    .card { padding: 28px 20px; }
+    .question-label { font-size: 22px; }
+  }
+
+  /* RADIO / CHECKBOX OPTIONS */
+  .options-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 8px;
+  }
+  .option-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px 20px;
+    border: 2px solid var(--gray-light);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+    user-select: none;
+  }
+  .option-item:hover { border-color: var(--navy-light); background: rgba(26,42,74,0.03); }
+  .option-item.selected {
+    border-color: var(--navy);
+    background: rgba(26,42,74,0.05);
+  }
+  .option-item input[type="radio"],
+  .option-item input[type="checkbox"] {
+    width: 20px; height: 20px;
+    accent-color: var(--navy);
+    flex-shrink: 0;
+    cursor: pointer;
+  }
+  .option-label { font-size: 16px; font-weight: 400; }
+
+  /* PEOPLE BUILDER */
+  .person-card {
+    border: 2px solid var(--gray-light);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 16px;
+    position: relative;
+  }
+  .person-card-title {
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--navy);
+    margin-bottom: 14px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    font-size: 12px;
+  }
+  .remove-btn {
+    position: absolute;
+    top: 16px; right: 16px;
+    background: none;
+    border: none;
+    color: var(--gray);
+    cursor: pointer;
+    font-size: 18px;
+    line-height: 1;
+    padding: 2px 6px;
+    border-radius: 6px;
+    transition: color 0.2s, background 0.2s;
+  }
+  .remove-btn:hover { color: #c0392b; background: rgba(192,57,43,0.08); }
+  .add-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: none;
+    border: 2px dashed var(--gray-light);
+    border-radius: 12px;
+    padding: 14px 20px;
+    width: 100%;
+    color: var(--navy);
+    font-size: 15px;
+    cursor: pointer;
+    font-family: 'Source Sans 3', sans-serif;
+    transition: all 0.2s;
+    font-weight: 500;
+  }
+  .add-btn:hover { border-color: var(--navy); background: rgba(26,42,74,0.03); }
+
+  /* ASSET ROW */
+  .asset-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr auto;
+    gap: 12px;
+    align-items: end;
+    margin-bottom: 12px;
+  }
+  @media (max-width: 520px) {
+    .asset-row { grid-template-columns: 1fr; }
+  }
+  .asset-remove {
+    background: none;
+    border: 2px solid var(--gray-light);
+    border-radius: 10px;
+    color: var(--gray);
+    cursor: pointer;
+    padding: 13px 14px;
+    font-size: 16px;
+    transition: all 0.2s;
+    height: 50px;
+  }
+  .asset-remove:hover { border-color: #c0392b; color: #c0392b; }
+
+  /* NAVIGATION */
+  .nav-buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 36px;
+    padding-top: 28px;
+    border-top: 1px solid var(--gray-light);
+  }
+  .btn-back {
+    background: none;
+    border: 2px solid var(--gray-light);
+    color: var(--gray);
+    padding: 14px 28px;
+    border-radius: 10px;
+    font-size: 15px;
+    cursor: pointer;
+    font-family: 'Source Sans 3', sans-serif;
+    font-weight: 500;
+    transition: all 0.2s;
+  }
+  .btn-back:hover { border-color: var(--navy); color: var(--navy); }
+  .btn-next {
+    background: var(--navy);
+    color: var(--white);
+    border: none;
+    padding: 15px 36px;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: 'Source Sans 3', sans-serif;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 4px 14px rgba(26,42,74,0.25);
+  }
+  .btn-next:hover {
+    background: var(--navy-light);
+    box-shadow: 0 6px 20px rgba(26,42,74,0.35);
+    transform: translateY(-1px);
+  }
+  .btn-next:active { transform: translateY(0); }
+  .btn-submit {
+    background: linear-gradient(135deg, var(--gold), var(--gold-light));
+    color: var(--navy-dark);
+    border: none;
+    padding: 15px 36px;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: 'Source Sans 3', sans-serif;
+    transition: all 0.2s;
+    box-shadow: 0 4px 14px rgba(201,168,76,0.35);
+  }
+  .btn-submit:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 22px rgba(201,168,76,0.45);
+  }
+
+  /* WELCOME SCREEN */
+  .welcome-logo {
+    margin-bottom: 32px;
+    padding-bottom: 28px;
+    border-bottom: 1px solid var(--gray-light);
+  }
+  .welcome-logo img {
+    height: 40px;
+    width: auto;
+    opacity: 0.85;
+  }
+  .welcome-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--navy-dark);
+    margin-bottom: 14px;
+    line-height: 1.25;
+  }
+  .welcome-text {
+    color: var(--gray);
+    font-size: 16px;
+    line-height: 1.7;
+    margin-bottom: 16px;
+  }
+  .welcome-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin: 28px 0;
+  }
+  .welcome-step {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 18px;
+    background: var(--off-white);
+    border-radius: 12px;
+  }
+  .step-num {
+    width: 28px; height: 28px;
+    background: var(--navy);
+    color: var(--white);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 700;
+    flex-shrink: 0;
+  }
+  .step-text { font-size: 15px; color: var(--text); }
+
+  /* THANK YOU */
+  .thankyou-icon {
+    width: 80px; height: 80px;
+    background: linear-gradient(135deg, var(--success), #3aaa7e);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 28px;
+    font-size: 36px;
+  }
+  .thankyou-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 30px;
+    font-weight: 700;
+    color: var(--navy-dark);
+    margin-bottom: 14px;
+    text-align: center;
+  }
+  .thankyou-text {
+    color: var(--gray);
+    font-size: 16px;
+    line-height: 1.7;
+    text-align: center;
+    margin-bottom: 28px;
+  }
+  .summary-box {
+    background: var(--off-white);
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 24px;
+  }
+  .summary-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--gray-light);
+    font-size: 14px;
+  }
+  .summary-row:last-child { border-bottom: none; }
+  .summary-label { color: var(--gray); }
+  .summary-value { font-weight: 600; color: var(--navy-dark); text-align: right; max-width: 60%; }
+
+  .error-msg {
+    color: #c0392b;
+    font-size: 13px;
+    margin-top: 6px;
+    display: none;
+  }
+  .error-msg.visible { display: block; }
+  input.error, select.error, textarea.error {
+    border-color: #c0392b !important;
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-logo">
+    <img 
+      src="https://rosenblumlaw.com/wp-content/uploads/2019/05/RLF_Hori_Lockup-e1559231927204.png"
+      alt="Rosenblum Law"
+      class="logo-img"
+    />
+    <div class="logo-divider"></div>
+    <div class="logo-sub">Estate Planning Intake</div>
+  </div>
+  <a class="header-phone" href="tel:8888153649">📞 888-815-3649</a>
+</div>
+
+<!-- PROGRESS BAR -->
+<div class="progress-container" id="progressBar" style="display:none">
+  <div class="progress-top">
+    <span class="progress-section-name" id="progressSection">Getting Started</span>
+    <span class="progress-count" id="progressCount">Step 1 of 8</span>
+  </div>
+  <div class="progress-bar-track">
+    <div class="progress-bar-fill" id="progressFill" style="width:0%"></div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+  <div class="card" id="mainCard">
+    <!-- Content injected by JS -->
+  </div>
+</div>
+
+<script>
+// ── DATA STORE ────────────────────────────────────────────────
+const data = {
+  firstName: '', lastName: '', dob: '', ssn: '', phone: '', email: '',
+  address: '', city: '', state: 'NJ', zip: '',
+  maritalStatus: '', spouseFirst: '', spouseLast: '', spouseDob: '', spouseSsn: '',
+  children: [],        // [{name, dob, address}]
+  trustees: [],        // [{name, relationship, phone, email}]
+  realEstate: [],      // [{address, value, owned}]
+  bankAccounts: [],    // [{institution, type, approxValue}]
+  retirement: [],      // [{institution, type, approxValue}]
+  lifeInsurance: [],   // [{company, faceValue, beneficiary}]
+  businessInterests: [],// [{businessName, type, approxValue}]
+  otherAssets: '',
+  healthcareProxy: '', healthcareProxyPhone: '',
+  poaAgent: '', poaAgentPhone: '',
+  additionalNotes: ''
+};
+
+// ── STEPS CONFIG ──────────────────────────────────────────────
+const STEPS = [
+  'welcome','personal','spouse','family','trustees',
+  'real-estate','financial','healthcare','review'
+];
+let currentStep = 0;
+
+const sectionNames = {
+  'welcome': 'Welcome',
+  'personal': 'Your Information',
+  'spouse': 'Spouse / Partner',
+  'family': 'Family & Beneficiaries',
+  'trustees': 'Trustee Appointments',
+  'real-estate': 'Real Estate & Assets',
+  'financial': 'Financial Accounts',
+  'healthcare': 'Healthcare & Legal Directives',
+  'review': 'Review & Submit'
+};
+
+// ── RENDER ENGINE ─────────────────────────────────────────────
+function render() {
+  const card = document.getElementById('mainCard');
+  const step = STEPS[currentStep];
+  const progressBar = document.getElementById('progressBar');
+
+  if (step === 'welcome') {
+    progressBar.style.display = 'none';
+  } else {
+    progressBar.style.display = 'block';
+    const pct = Math.round(((currentStep) / (STEPS.length - 1)) * 100);
+    document.getElementById('progressFill').style.width = pct + '%';
+    document.getElementById('progressSection').textContent = sectionNames[step];
+    document.getElementById('progressCount').textContent = `Step ${currentStep} of ${STEPS.length - 2}`;
+  }
+
+  card.innerHTML = '';
+  card.style.animation = 'none';
+  card.offsetHeight; // reflow
+  card.style.animation = '';
+
+  switch(step) {
+    case 'welcome':     renderWelcome(card); break;
+    case 'personal':    renderPersonal(card); break;
+    case 'spouse':      renderSpouse(card); break;
+    case 'family':      renderFamily(card); break;
+    case 'trustees':    renderTrustees(card); break;
+    case 'real-estate': renderAssets(card); break;
+    case 'financial':   renderFinancial(card); break;
+    case 'healthcare':  renderHealthcare(card); break;
+    case 'review':      renderReview(card); break;
+  }
+}
+
+// ── HELPERS ───────────────────────────────────────────────────
+function badge(text) {
+  return `<div class="section-badge"><span class="section-badge-dot"></span>${text}</div>`;
+}
+function navButtons(showBack=true, nextLabel='Continue →', isSubmit=false) {
+  return `<div class="nav-buttons">
+    ${showBack ? `<button class="btn-back" onclick="goBack()">← Back</button>` : `<div></div>`}
+    ${isSubmit
+      ? `<button class="btn-submit" onclick="submitForm()">✓ Submit My Information</button>`
+      : `<button class="btn-next" onclick="goNext()">${nextLabel}</button>`}
+  </div>`;
+}
+function inputField(label, key, type='text', placeholder='', required=false) {
+  const val = data[key] || '';
+  return `<div class="input-group">
+    <label>${label}${required ? ' <span style="color:#c0392b">*</span>' : ''}</label>
+    <input type="${type}" value="${val}" placeholder="${placeholder}"
+      oninput="data['${key}']=this.value"
+      id="field_${key}" autocomplete="off">
+    <div class="error-msg" id="err_${key}">This field is required.</div>
+  </div>`;
+}
+function selectField(label, key, options, required=false) {
+  const val = data[key] || '';
+  const opts = options.map(o => `<option value="${o.v||o}" ${val===(o.v||o)?'selected':''}>${o.l||o}</option>`).join('');
+  return `<div class="input-group">
+    <label>${label}${required ? ' <span style="color:#c0392b">*</span>' : ''}</label>
+    <select onchange="data['${key}']=this.value" id="field_${key}">
+      <option value="">— Select —</option>
+      ${opts}
+    </select>
+    <div class="error-msg" id="err_${key}">Please make a selection.</div>
+  </div>`;
+}
+function tooltip(id, btnText, content) {
+  return `<button class="tooltip-btn" onclick="toggleTip('${id}')">💡 ${btnText}</button>
+  <div class="tooltip-box" id="tip_${id}">${content}</div>`;
+}
+function toggleTip(id) {
+  const el = document.getElementById('tip_'+id);
+  el.classList.toggle('visible');
+}
+
+// ── STEP RENDERERS ────────────────────────────────────────────
+
+function renderWelcome(card) {
+  card.innerHTML = `
+    <div class="welcome-logo">
+      <img src="https://rosenblumlaw.com/wp-content/uploads/2019/05/RLF_Hori_Lockup-e1559231927204.png" alt="Rosenblum Law" />
+    </div>
+    <div class="welcome-title">Let's Prepare for Your Estate Planning Consultation</div>
+    <div class="welcome-text">
+      Welcome to Rosenblum Law. Before your consultation, we'd like to gather some basic
+      information so your attorney can make the most of your time together.
+    </div>
+    <div class="welcome-text">
+      This typically takes <strong>15–20 minutes</strong>. You can stop and come back at any time —
+      your progress is saved automatically.
+    </div>
+    <div class="welcome-steps">
+      <div class="welcome-step"><div class="step-num">1</div><div class="step-text">Your personal & contact information</div></div>
+      <div class="welcome-step"><div class="step-num">2</div><div class="step-text">Your family and who you'd like to benefit</div></div>
+      <div class="welcome-step"><div class="step-num">3</div><div class="step-text">Your assets — real estate, accounts & more</div></div>
+      <div class="welcome-step"><div class="step-num">4</div><div class="step-text">Healthcare and power of attorney wishes</div></div>
+    </div>
+    <div class="welcome-text" style="font-size:13px; color:#aaa;">
+      🔒 Your information is confidential and protected under attorney-client privilege.
+    </div>
+    <div class="nav-buttons" style="justify-content:flex-end">
+      <button class="btn-next" onclick="goNext()">Get Started →</button>
+    </div>`;
+}
+
+function renderPersonal(card) {
+  card.innerHTML = `
+    ${badge('Step 1 of 7 — About You')}
+    <div class="question-label">Let's start with your basic information</div>
+    <div class="question-hint">Please fill in your details as they appear on your legal documents.</div>
+    <div class="input-row">
+      ${inputField('First Name', 'firstName', 'text', 'John', true)}
+      ${inputField('Last Name', 'lastName', 'text', 'Smith', true)}
+    </div>
+    ${inputField('Date of Birth', 'dob', 'date', '', true)}
+    ${inputField('Social Security Number', 'ssn', 'text', 'XXX-XX-XXXX', true)}
+    ${inputField('Best Phone Number', 'phone', 'tel', '(555) 000-0000', true)}
+    ${inputField('Email Address', 'email', 'email', 'you@example.com', true)}
+    <div class="question-label" style="font-size:20px; margin-top:28px; margin-bottom:16px;">Your Home Address</div>
+    ${inputField('Street Address', 'address', 'text', '123 Main St', true)}
+    <div class="input-row">
+      ${inputField('City', 'city', 'text', 'Clifton', true)}
+      ${inputField('Zip Code', 'zip', 'text', '07012', true)}
+    </div>
+    ${navButtons(false, 'Continue →')}`;
+}
+
+function renderSpouse(card) {
+  const married = data.maritalStatus === 'Married' || data.maritalStatus === 'Domestic Partner';
+  card.innerHTML = `
+    ${badge('Step 2 of 7 — Spouse / Partner')}
+    <div class="question-label">Are you currently married or in a domestic partnership?</div>
+    <div class="question-hint">This affects how your trust will be structured.</div>
+    <div class="options-list" id="maritalOptions">
+      ${['Single','Married','Domestic Partner','Widowed','Divorced'].map(s => `
+        <label class="option-item ${data.maritalStatus===s?'selected':''}" onclick="selectMarital('${s}')">
+          <input type="radio" name="marital" value="${s}" ${data.maritalStatus===s?'checked':''}> 
+          <span class="option-label">${s}</span>
+        </label>`).join('')}
+    </div>
+    <div id="spouseFields" style="margin-top:28px; display:${married?'block':'none'}">
+      <div class="question-label" style="font-size:20px; margin-bottom:16px;">Spouse / Partner Details</div>
+      <div class="input-row">
+        ${inputField('First Name', 'spouseFirst', 'text', 'Jane')}
+        ${inputField('Last Name', 'spouseLast', 'text', 'Smith')}
+      </div>
+      ${inputField('Date of Birth', 'spouseDob', 'date')}
+      ${inputField('Social Security Number', 'spouseSsn', 'text', 'XXX-XX-XXXX')}
+    </div>
+    ${navButtons()}`;
+}
+
+function selectMarital(val) {
+  data.maritalStatus = val;
+  document.querySelectorAll('#maritalOptions .option-item').forEach(el => {
+    el.classList.toggle('selected', el.querySelector('input').value === val);
+    el.querySelector('input').checked = el.querySelector('input').value === val;
+  });
+  const show = val === 'Married' || val === 'Domestic Partner';
+  document.getElementById('spouseFields').style.display = show ? 'block' : 'none';
+}
+
+function renderFamily(card) {
+  card.innerHTML = `
+    ${badge('Step 3 of 7 — Family & Beneficiaries')}
+    <div class="question-label">Tell us about your children or other beneficiaries</div>
+    <div class="question-hint">List the people you'd like to benefit from your trust. This includes children, grandchildren, or others.</div>
+    <div id="childrenList">${renderChildrenList()}</div>
+    <button class="add-btn" onclick="addChild()">+ Add a Child or Beneficiary</button>
+    ${navButtons()}`;
+}
+
+function renderChildrenList() {
+  if (data.children.length === 0) return '<p style="color:var(--gray);font-size:14px;margin-bottom:16px;">No beneficiaries added yet.</p>';
+  return data.children.map((c, i) => `
+    <div class="person-card">
+      <div class="person-card-title">Beneficiary #${i+1}</div>
+      <button class="remove-btn" onclick="removeChild(${i})">✕</button>
+      <div class="input-row">
+        <div class="input-group"><label>Full Name</label>
+          <input type="text" value="${c.name||''}" placeholder="Full Name"
+            oninput="data.children[${i}].name=this.value">
+        </div>
+        <div class="input-group"><label>Date of Birth</label>
+          <input type="date" value="${c.dob||''}"
+            oninput="data.children[${i}].dob=this.value">
+        </div>
+      </div>
+      <div class="input-group"><label>Address (if different from yours)</label>
+        <input type="text" value="${c.address||''}" placeholder="Optional"
+          oninput="data.children[${i}].address=this.value">
+      </div>
+    </div>`).join('');
+}
+function addChild() {
+  data.children.push({name:'',dob:'',address:''});
+  document.getElementById('childrenList').innerHTML = renderChildrenList();
+}
+function removeChild(i) {
+  data.children.splice(i, 1);
+  document.getElementById('childrenList').innerHTML = renderChildrenList();
+}
+
+function renderTrustees(card) {
+  card.innerHTML = `
+    ${badge('Step 4 of 7 — Trustee Appointments')}
+    <div class="question-label">Who would you like to manage your trust?</div>
+    <div class="question-hint">A trustee manages your trust if you become incapacitated or after you pass. A successor trustee takes over if your primary trustee cannot serve.</div>
+    ${tooltip('trustee', 'What is a trustee?', 'A trustee is the person responsible for managing your trust assets according to your wishes. You can name yourself as primary trustee (which most people do), and then name a trusted family member or friend as the successor trustee who takes over when needed.')}
+    <div id="trusteeList">${renderTrusteeList()}</div>
+    <button class="add-btn" onclick="addTrustee()">+ Add a Trustee</button>
+    ${navButtons()}`;
+}
+
+function renderTrusteeList() {
+  if (data.trustees.length === 0) return '<p style="color:var(--gray);font-size:14px;margin-bottom:16px;">No trustees added yet.</p>';
+  return data.trustees.map((t, i) => `
+    <div class="person-card">
+      <div class="person-card-title">${i===0?'Primary Trustee':'Successor Trustee #'+(i)}</div>
+      <button class="remove-btn" onclick="removeTrustee(${i})">✕</button>
+      <div class="input-row">
+        <div class="input-group"><label>Full Name</label>
+          <input type="text" value="${t.name||''}" placeholder="Full Name"
+            oninput="data.trustees[${i}].name=this.value">
+        </div>
+        <div class="input-group"><label>Relationship to You</label>
+          <input type="text" value="${t.relationship||''}" placeholder="e.g. Son, Daughter, Sibling"
+            oninput="data.trustees[${i}].relationship=this.value">
+        </div>
+      </div>
+      <div class="input-row">
+        <div class="input-group"><label>Phone Number</label>
+          <input type="tel" value="${t.phone||''}" placeholder="(555) 000-0000"
+            oninput="data.trustees[${i}].phone=this.value">
+        </div>
+        <div class="input-group"><label>Email Address</label>
+          <input type="email" value="${t.email||''}" placeholder="Optional"
+            oninput="data.trustees[${i}].email=this.value">
+        </div>
+      </div>
+    </div>`).join('');
+}
+function addTrustee() {
+  data.trustees.push({name:'',relationship:'',phone:'',email:''});
+  document.getElementById('trusteeList').innerHTML = renderTrusteeList();
+}
+function removeTrustee(i) {
+  data.trustees.splice(i, 1);
+  document.getElementById('trusteeList').innerHTML = renderTrusteeList();
+}
+
+function renderAssets(card) {
+  card.innerHTML = `
+    ${badge('Step 5 of 7 — Real Estate & Assets')}
+    <div class="question-label">Tell us about your real estate</div>
+    <div class="question-hint">List any properties you own, including your home, rental properties, or vacation homes. Approximate values are fine.</div>
+
+    <div id="realEstateList">${renderRealEstateList()}</div>
+    <button class="add-btn" onclick="addRealEstate()">+ Add a Property</button>
+
+    <div class="question-label" style="font-size:20px; margin-top:36px; margin-bottom:8px;">Other Valuable Assets</div>
+    <div class="question-hint">Vehicles, jewelry, artwork, collectibles — anything of significant value.</div>
+    <div class="input-group">
+      <label>Describe other assets (optional)</label>
+      <textarea placeholder="e.g. 2021 Toyota Camry (~$22,000), jewelry collection (~$8,000)" 
+        oninput="data.otherAssets=this.value">${data.otherAssets||''}</textarea>
+    </div>
+    ${navButtons()}`;
+}
+function renderRealEstateList() {
+  if (data.realEstate.length === 0) return '<p style="color:var(--gray);font-size:14px;margin-bottom:16px;">No properties added yet.</p>';
+  return data.realEstate.map((r, i) => `
+    <div class="person-card">
+      <div class="person-card-title">Property #${i+1}</div>
+      <button class="remove-btn" onclick="removeRealEstate(${i})">✕</button>
+      <div class="input-group"><label>Property Address</label>
+        <input type="text" value="${r.address||''}" placeholder="123 Oak St, Clifton, NJ"
+          oninput="data.realEstate[${i}].address=this.value">
+      </div>
+      <div class="input-row">
+        <div class="input-group"><label>Approximate Value</label>
+          <input type="text" value="${r.value||''}" placeholder="$450,000"
+            oninput="data.realEstate[${i}].value=this.value">
+        </div>
+        <div class="input-group"><label>How is it owned?</label>
+          <select oninput="data.realEstate[${i}].owned=this.value">
+            <option value="">— Select —</option>
+            ${['Solely by me','Jointly with spouse','Jointly with other','Other'].map(o=>`<option ${r.owned===o?'selected':''}>${o}</option>`).join('')}
+          </select>
+        </div>
+      </div>
+    </div>`).join('');
+}
+function addRealEstate() {
+  data.realEstate.push({address:'',value:'',owned:''});
+  document.getElementById('realEstateList').innerHTML = renderRealEstateList();
+}
+function removeRealEstate(i) {
+  data.realEstate.splice(i,1);
+  document.getElementById('realEstateList').innerHTML = renderRealEstateList();
+}
+
+function renderFinancial(card) {
+  card.innerHTML = `
+    ${badge('Step 6 of 7 — Financial Accounts')}
+    <div class="question-label">Tell us about your financial accounts</div>
+    <div class="question-hint">Include bank accounts, investments, retirement accounts, and life insurance. Approximate values are perfectly fine.</div>
+
+    <div class="question-label" style="font-size:18px; margin-bottom:12px;">🏦 Bank & Investment Accounts</div>
+    <div id="bankList">${renderBankList()}</div>
+    <button class="add-btn" onclick="addBank()" style="margin-bottom:28px">+ Add Account</button>
+
+    <div class="question-label" style="font-size:18px; margin-bottom:12px;">🏛️ Retirement Accounts (IRA, 401k, 403b)</div>
+    <div id="retirementList">${renderRetirementList()}</div>
+    <button class="add-btn" onclick="addRetirement()" style="margin-bottom:28px">+ Add Retirement Account</button>
+
+    <div class="question-label" style="font-size:18px; margin-bottom:12px;">🛡️ Life Insurance Policies</div>
+    <div id="lifeList">${renderLifeList()}</div>
+    <button class="add-btn" onclick="addLife()">+ Add Life Insurance Policy</button>
+    ${navButtons()}`;
+}
+function renderBankList() {
+  if (data.bankAccounts.length === 0) return '<p style="color:var(--gray);font-size:14px;margin-bottom:16px;">No accounts added yet.</p>';
+  return data.bankAccounts.map((b,i) => `
+    <div class="person-card">
+      <button class="remove-btn" onclick="removeBank(${i})">✕</button>
+      <div class="input-row">
+        <div class="input-group"><label>Bank / Institution</label>
+          <input type="text" value="${b.institution||''}" placeholder="Chase, Wells Fargo..."
+            oninput="data.bankAccounts[${i}].institution=this.value">
+        </div>
+        <div class="input-group"><label>Account Type</label>
+          <select oninput="data.bankAccounts[${i}].type=this.value">
+            <option value="">— Select —</option>
+            ${['Checking','Savings','Money Market','Brokerage','CD'].map(o=>`<option ${b.type===o?'selected':''}>${o}</option>`).join('')}
+          </select>
+        </div>
+      </div>
+      <div class="input-group"><label>Approximate Balance</label>
+        <input type="text" value="${b.approxValue||''}" placeholder="$25,000"
+          oninput="data.bankAccounts[${i}].approxValue=this.value">
+      </div>
+    </div>`).join('');
+}
+function addBank() { data.bankAccounts.push({institution:'',type:'',approxValue:''}); document.getElementById('bankList').innerHTML=renderBankList(); }
+function removeBank(i) { data.bankAccounts.splice(i,1); document.getElementById('bankList').innerHTML=renderBankList(); }
+
+function renderRetirementList() {
+  if (data.retirement.length === 0) return '<p style="color:var(--gray);font-size:14px;margin-bottom:16px;">No retirement accounts added yet.</p>';
+  return data.retirement.map((r,i) => `
+    <div class="person-card">
+      <button class="remove-btn" onclick="removeRetirement(${i})">✕</button>
+      <div class="input-row">
+        <div class="input-group"><label>Institution</label>
+          <input type="text" value="${r.institution||''}" placeholder="Fidelity, Vanguard..."
+            oninput="data.retirement[${i}].institution=this.value">
+        </div>
+        <div class="input-group"><label>Account Type</label>
+          <select oninput="data.retirement[${i}].type=this.value">
+            <option value="">—</option>
+            ${['401(k)','IRA','Roth IRA','403(b)','Pension','Other'].map(o=>`<option ${r.type===o?'selected':''}>${o}</option>`).join('')}
+          </select>
+        </div>
+      </div>
+      <div class="input-group"><label>Approximate Value</label>
+        <input type="text" value="${r.approxValue||''}" placeholder="$120,000"
+          oninput="data.retirement[${i}].approxValue=this.value">
+      </div>
+    </div>`).join('');
+}
+function addRetirement() { data.retirement.push({institution:'',type:'',approxValue:''}); document.getElementById('retirementList').innerHTML=renderRetirementList(); }
+function removeRetirement(i) { data.retirement.splice(i,1); document.getElementById('retirementList').innerHTML=renderRetirementList(); }
+
+function renderLifeList() {
+  if (data.lifeInsurance.length === 0) return '<p style="color:var(--gray);font-size:14px;margin-bottom:16px;">No policies added yet.</p>';
+  return data.lifeInsurance.map((l,i) => `
+    <div class="person-card">
+      <button class="remove-btn" onclick="removeLife(${i})">✕</button>
+      <div class="input-row">
+        <div class="input-group"><label>Insurance Company</label>
+          <input type="text" value="${l.company||''}" placeholder="MetLife, Prudential..."
+            oninput="data.lifeInsurance[${i}].company=this.value">
+        </div>
+        <div class="input-group"><label>Face Value / Death Benefit</label>
+          <input type="text" value="${l.faceValue||''}" placeholder="$500,000"
+            oninput="data.lifeInsurance[${i}].faceValue=this.value">
+        </div>
+      </div>
+      <div class="input-group"><label>Current Beneficiary on Policy</label>
+        <input type="text" value="${l.beneficiary||''}" placeholder="Spouse, children..."
+          oninput="data.lifeInsurance[${i}].beneficiary=this.value">
+      </div>
+    </div>`).join('');
+}
+function addLife() { data.lifeInsurance.push({company:'',faceValue:'',beneficiary:''}); document.getElementById('lifeList').innerHTML=renderLifeList(); }
+function removeLife(i) { data.lifeInsurance.splice(i,1); document.getElementById('lifeList').innerHTML=renderLifeList(); }
+
+function renderHealthcare(card) {
+  card.innerHTML = `
+    ${badge('Step 7 of 7 — Healthcare & Legal Directives')}
+    <div class="question-label">Who should make decisions for you if you can't?</div>
+    <div class="question-hint">These are important designations that go alongside your trust.</div>
+    ${tooltip('hcp', 'What is a Healthcare Proxy?', 'A Healthcare Proxy (also called a Healthcare Power of Attorney) is someone you authorize to make medical decisions on your behalf if you are incapacitated and cannot speak for yourself. This is separate from your financial power of attorney.')}
+
+    <div class="question-label" style="font-size:20px;margin-bottom:16px;">🏥 Healthcare Proxy</div>
+    <div class="input-row">
+      ${inputField('Healthcare Proxy Full Name', 'healthcareProxy', 'text', 'Full Name')}
+      ${inputField('Their Phone Number', 'healthcareProxyPhone', 'tel', '(555) 000-0000')}
+    </div>
+
+    ${tooltip('poa', 'What is a Power of Attorney?', 'A Durable Power of Attorney authorizes someone to manage your financial and legal affairs if you become unable to do so. This person can pay bills, manage accounts, and handle legal matters on your behalf.')}
+
+    <div class="question-label" style="font-size:20px;margin-bottom:16px;">📋 Financial Power of Attorney</div>
+    <div class="input-row">
+      ${inputField('POA Agent Full Name', 'poaAgent', 'text', 'Full Name')}
+      ${inputField('Their Phone Number', 'poaAgentPhone', 'tel', '(555) 000-0000')}
+    </div>
+
+    <div class="question-label" style="font-size:20px;margin-top:28px;margin-bottom:12px;">📝 Anything Else?</div>
+    <div class="input-group">
+      <label>Additional notes or questions for your attorney (optional)</label>
+      <textarea placeholder="Any special circumstances, concerns, or questions you'd like to discuss..."
+        oninput="data.additionalNotes=this.value">${data.additionalNotes||''}</textarea>
+    </div>
+    ${navButtons(true, 'Review My Answers →')}`;
+}
+
+function renderReview(card) {
+  const name = `${data.firstName} ${data.lastName}`.trim() || '—';
+  const kids = data.children.length ? data.children.map(c=>c.name||'Unnamed').join(', ') : 'None added';
+  const trustees = data.trustees.length ? data.trustees.map(t=>t.name||'Unnamed').join(', ') : 'None added';
+  const props = data.realEstate.length ? `${data.realEstate.length} propert${data.realEstate.length>1?'ies':'y'}` : 'None added';
+  const accounts = (data.bankAccounts.length + data.retirement.length + data.lifeInsurance.length);
+
+  card.innerHTML = `
+    ${badge('Final Step — Review & Submit')}
+    <div class="question-label">Review your information</div>
+    <div class="question-hint">Please take a moment to confirm everything looks correct before submitting.</div>
+
+    <div class="summary-box">
+      <div class="summary-row"><span class="summary-label">Full Name</span><span class="summary-value">${name}</span></div>
+      <div class="summary-row"><span class="summary-label">Date of Birth</span><span class="summary-value">${data.dob||'—'}</span></div>
+      <div class="summary-row"><span class="summary-label">Phone</span><span class="summary-value">${data.phone||'—'}</span></div>
+      <div class="summary-row"><span class="summary-label">Email</span><span class="summary-value">${data.email||'—'}</span></div>
+      <div class="summary-row"><span class="summary-label">Address</span><span class="summary-value">${data.address ? data.address+', '+data.city : '—'}</span></div>
+      <div class="summary-row"><span class="summary-label">Marital Status</span><span class="summary-value">${data.maritalStatus||'—'}</span></div>
+      <div class="summary-row"><span class="summary-label">Beneficiaries</span><span class="summary-value">${kids}</span></div>
+      <div class="summary-row"><span class="summary-label">Trustees Named</span><span class="summary-value">${trustees}</span></div>
+      <div class="summary-row"><span class="summary-label">Properties</span><span class="summary-value">${props}</span></div>
+      <div class="summary-row"><span class="summary-label">Financial Accounts</span><span class="summary-value">${accounts} account${accounts!==1?'s':''} listed</span></div>
+      <div class="summary-row"><span class="summary-label">Healthcare Proxy</span><span class="summary-value">${data.healthcareProxy||'—'}</span></div>
+      <div class="summary-row"><span class="summary-label">Power of Attorney</span><span class="summary-value">${data.poaAgent||'—'}</span></div>
+    </div>
+
+    <p style="font-size:13px;color:var(--gray);line-height:1.6;margin-bottom:8px;">
+      By submitting, you confirm this information is accurate to the best of your knowledge. 
+      Your attorney will review everything before your consultation.
+    </p>
+    ${navButtons(true, '', true)}`;
+}
+
+function submitForm() {
+  // In production this would POST to a server
+  const card = document.getElementById('mainCard');
+  document.getElementById('progressBar').style.display = 'none';
+  card.innerHTML = `
+    <div style="text-align:center;padding:20px 0">
+      <div class="thankyou-icon">✓</div>
+      <div class="thankyou-title">You're All Set!</div>
+      <div class="thankyou-text">
+        Thank you, <strong>${data.firstName||'there'}</strong>. Your information has been submitted
+        to the Rosenblum Law estate planning team.<br><br>
+        Your attorney will review your responses before your consultation so you can get right to work.
+      </div>
+      <div class="summary-box" style="text-align:left">
+        <div class="summary-row"><span class="summary-label">Submitted by</span><span class="summary-value">${data.firstName} ${data.lastName}</span></div>
+        <div class="summary-row"><span class="summary-label">Email</span><span class="summary-value">${data.email||'—'}</span></div>
+        <div class="summary-row"><span class="summary-label">Status</span><span class="summary-value" style="color:var(--success)">✓ Complete</span></div>
+      </div>
+      <p style="font-size:14px;color:var(--gray);margin-bottom:24px;">
+        Questions? Call us at <a href="tel:8888153649" style="color:var(--navy);font-weight:600">888-815-3649</a>
+      </p>
+    </div>`;
+}
+
+// ── NAVIGATION ────────────────────────────────────────────────
+function goNext() {
+  if (!validateStep()) return;
+  if (currentStep < STEPS.length - 1) {
+    currentStep++;
+    render();
+    window.scrollTo({top:0, behavior:'smooth'});
+  }
+}
+function goBack() {
+  if (currentStep > 0) {
+    currentStep--;
+    render();
+    window.scrollTo({top:0, behavior:'smooth'});
+  }
+}
+
+function validateStep() {
+  const step = STEPS[currentStep];
+  let valid = true;
+  if (step === 'personal') {
+    ['firstName','lastName','dob','ssn','phone','email','address','city','zip'].forEach(k => {
+      const el = document.getElementById('field_'+k);
+      const err = document.getElementById('err_'+k);
+      if (el && !el.value.trim()) {
+        el.classList.add('error');
+        err && err.classList.add('visible');
+        valid = false;
+      } else if (el) {
+        el.classList.remove('error');
+        err && err.classList.remove('visible');
+      }
+    });
+  }
+  return valid;
+}
+
+// ── INIT ──────────────────────────────────────────────────────
+render();
+</script>
+</body>
+</html>

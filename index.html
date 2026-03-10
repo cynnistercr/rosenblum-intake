@@ -332,6 +332,13 @@ function renderFamily(card){
 }
 function renderChildrenList(){
   if(!data.children.length) return '<p style="color:var(--gray);font-size:14px;margin-bottom:16px;">No beneficiaries added yet.</p>';
+  const parentageOptions = () => {
+    const opts = ['Child of both of us'];
+    if(data.firstName) opts.push(`Child of ${data.firstName} only`);
+    if(data.spouseFirst) opts.push(`Child of ${data.spouseFirst} only`);
+    opts.push('Other');
+    return opts;
+  };
   return data.children.map((c,i)=>`<div class="person-card">
     <div class="person-card-title">Beneficiary #${i+1}</div>
     <button class="remove-btn" onclick="removeChild(${i})">✕</button>
@@ -339,10 +346,16 @@ function renderChildrenList(){
       <div class="input-group"><label>Full Name</label><input type="text" value="${c.name||''}" placeholder="Full Name" oninput="data.children[${i}].name=this.value"></div>
       <div class="input-group"><label>Date of Birth</label><input type="date" value="${c.dob||''}" oninput="data.children[${i}].dob=this.value"></div>
     </div>
+    <div class="input-group"><label>Whose child is this?</label>
+      <select onchange="data.children[${i}].parentage=this.value">
+        <option value="">— Select —</option>
+        ${parentageOptions().map(o=>`<option value="${o}" ${c.parentage===o?'selected':''}>${o}</option>`).join('')}
+      </select>
+    </div>
     <div class="input-group"><label>Address (if different from yours)</label><input type="text" value="${c.address||''}" placeholder="Optional" oninput="data.children[${i}].address=this.value"></div>
   </div>`).join('');
 }
-function addChild(){data.children.push({name:'',dob:'',address:''});document.getElementById('childrenList').innerHTML=renderChildrenList();}
+function addChild(){data.children.push({name:'',dob:'',address:'',parentage:''});document.getElementById('childrenList').innerHTML=renderChildrenList();}
 function removeChild(i){data.children.splice(i,1);document.getElementById('childrenList').innerHTML=renderChildrenList();}
 
 // ── TRUSTEES ──────────────────────────────────────────────────
@@ -613,7 +626,7 @@ function renderReview(card){
 }
 
 function buildEmailBody() {
-  const kids = data.children.length ? data.children.map((c,i)=>`Beneficiary ${i+1}: ${c.name||'—'} | DOB: ${c.dob||'—'} | Address: ${c.address||'—'}`).join('\n') : 'None';
+  const kids = data.children.length ? data.children.map((c,i)=>`Beneficiary ${i+1}: ${c.name||'—'} | DOB: ${c.dob||'—'} | Parentage: ${c.parentage||'—'} | Address: ${c.address||'—'}`).join('\n') : 'None';
   const trustees = data.trustees.length ? data.trustees.map((t,i)=>`${i===0?'Primary':'Successor'} Trustee: ${t.name||'—'} | Relationship: ${t.relationship||'—'} | Phone: ${t.phone||'—'} | Email: ${t.email||'—'}`).join('\n') : 'None';
   const props = data.realEstate.length ? data.realEstate.map((r,i)=>`Property ${i+1}: ${r.address||'—'} | Value: ${r.value||'—'} | Owner: ${r.owner||'—'}${r.ownerCustom?' ('+r.ownerCustom+')':''}`).join('\n') : 'None';
   const banks = data.bankAccounts.length ? data.bankAccounts.map((b,i)=>`Account ${i+1}: ${b.institution||'—'} | Type: ${b.type||'—'} | Balance: ${b.approxValue||'—'} | Owner: ${b.owner||'—'} | Acct#: ${b.accountNumber||'To be provided'}`).join('\n') : 'None';
@@ -670,7 +683,7 @@ ${data.additionalNotes||'None'}
 
 function buildPDFSummary() {
   const fmt = (v) => v||'—';
-  const kids = data.children.length ? data.children.map((c,i)=>`<div class="pdf-row"><span class="pdf-label">Beneficiary ${i+1}</span><span class="pdf-value">${fmt(c.name)} ${c.dob?'· DOB: '+c.dob:''}</span></div>`).join('') : '<div class="pdf-row"><span class="pdf-label">Beneficiaries</span><span class="pdf-value">None added</span></div>';
+  const kids = data.children.length ? data.children.map((c,i)=>`<div class="pdf-row"><span class="pdf-label">Beneficiary ${i+1}</span><span class="pdf-value">${fmt(c.name)} ${c.dob?'· DOB: '+c.dob:''} ${c.parentage?'· '+c.parentage:''}</span></div>`).join('') : '<div class="pdf-row"><span class="pdf-label">Beneficiaries</span><span class="pdf-value">None added</span></div>';
   const trustees = data.trustees.length ? data.trustees.map((t,i)=>`<div class="pdf-row"><span class="pdf-label">${i===0?'Primary Trustee':'Successor Trustee'}</span><span class="pdf-value">${fmt(t.name)} · ${fmt(t.relationship)} · ${fmt(t.phone)}</span></div>`).join('') : '<div class="pdf-row"><span class="pdf-label">Trustees</span><span class="pdf-value">None added</span></div>';
   const props = data.realEstate.length ? data.realEstate.map((r,i)=>`<div class="pdf-row"><span class="pdf-label">Property ${i+1}</span><span class="pdf-value">${fmt(r.address)} · ${fmt(r.value)} · ${fmt(r.owner)}</span></div>`).join('') : '<div class="pdf-row"><span class="pdf-label">Properties</span><span class="pdf-value">None added</span></div>';
   const banks = data.bankAccounts.length ? data.bankAccounts.map((b,i)=>`<div class="pdf-row"><span class="pdf-label">${fmt(b.institution)}</span><span class="pdf-value">${fmt(b.type)} · ${fmt(b.approxValue)} · Owner: ${fmt(b.owner)} · Acct#: ${b.accountNumber||'To be provided'}</span></div>`).join('') : '<div class="pdf-row"><span class="pdf-label">Bank Accounts</span><span class="pdf-value">None added</span></div>';

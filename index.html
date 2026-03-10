@@ -128,6 +128,29 @@
   .calendly-cta-thankyou .calendly-cta-sub{margin-bottom:20px;}
   .calendly-cta-thankyou .calendly-btn{display:inline-block;}
 
+
+  @media print {
+    .header, .progress-container, .nav-buttons, .calendly-cta, .calendly-cta-thankyou, .btn-print, .no-print { display: none !important; }
+    body { background: white; }
+    .main { padding: 0; }
+    .card { box-shadow: none; border-radius: 0; padding: 24px; max-width: 100%; }
+    .print-section { page-break-inside: avoid; }
+    .print-header { display: flex !important; }
+  }
+  .print-header { display: none; align-items: center; gap: 16px; margin-bottom: 24px; padding-bottom: 20px; border-bottom: 2px solid var(--navy); }
+  .print-header img { height: 36px; }
+  .print-header-text { font-family: 'Playfair Display', serif; font-size: 18px; color: var(--navy-dark); font-weight: 700; }
+  .print-header-sub { font-size: 12px; color: var(--gray); margin-top: 2px; }
+  .pdf-section { margin-bottom: 24px; }
+  .pdf-section-title { font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 700; color: var(--navy-dark); padding: 8px 0; border-bottom: 2px solid var(--navy); margin-bottom: 12px; }
+  .pdf-row { display: flex; justify-content: space-between; padding: 7px 0; border-bottom: 1px solid var(--gray-light); font-size: 13px; }
+  .pdf-row:last-child { border-bottom: none; }
+  .pdf-label { color: var(--gray); font-weight: 500; min-width: 180px; }
+  .pdf-value { font-weight: 600; color: var(--navy-dark); text-align: right; flex: 1; }
+  .btn-print { display: inline-flex; align-items: center; gap: 8px; background: var(--navy); color: var(--white); border: none; padding: 14px 28px; border-radius: 10px; font-size: 15px; font-weight: 600; cursor: pointer; font-family: 'Source Sans 3', sans-serif; transition: all 0.2s; margin: 16px auto 0; }
+  .btn-print:hover { background: var(--navy-light); }
+  .pdf-wrapper { margin-top: 28px; border: 2px solid var(--gray-light); border-radius: 14px; padding: 32px; background: var(--white); }
+
   @media(max-width:520px){
     .input-row{grid-template-columns:1fr;}
     .card{padding:28px 20px;}
@@ -589,25 +612,192 @@ function renderReview(card){
   ${navButtons(true,'',true)}`;
 }
 
-function submitForm(){
-  const card=document.getElementById('mainCard');
-  document.getElementById('progressBar').style.display='none';
-  card.innerHTML=`<div style="text-align:center;padding:20px 0">
+function buildEmailBody() {
+  const kids = data.children.length ? data.children.map((c,i)=>`Beneficiary ${i+1}: ${c.name||'—'} | DOB: ${c.dob||'—'} | Address: ${c.address||'—'}`).join('\n') : 'None';
+  const trustees = data.trustees.length ? data.trustees.map((t,i)=>`${i===0?'Primary':'Successor'} Trustee: ${t.name||'—'} | Relationship: ${t.relationship||'—'} | Phone: ${t.phone||'—'} | Email: ${t.email||'—'}`).join('\n') : 'None';
+  const props = data.realEstate.length ? data.realEstate.map((r,i)=>`Property ${i+1}: ${r.address||'—'} | Value: ${r.value||'—'} | Owner: ${r.owner||'—'}${r.ownerCustom?' ('+r.ownerCustom+')':''}`).join('\n') : 'None';
+  const banks = data.bankAccounts.length ? data.bankAccounts.map((b,i)=>`Account ${i+1}: ${b.institution||'—'} | Type: ${b.type||'—'} | Balance: ${b.approxValue||'—'} | Owner: ${b.owner||'—'} | Acct#: ${b.accountNumber||'To be provided'}`).join('\n') : 'None';
+  const ret = data.retirement.length ? data.retirement.map((r,i)=>`Account ${i+1}: ${r.institution||'—'} | Type: ${r.type||'—'} | Value: ${r.approxValue||'—'} | Owner: ${r.owner||'—'} | Acct#: ${r.accountNumber||'To be provided'}`).join('\n') : 'None';
+  const life = data.lifeInsurance.length ? data.lifeInsurance.map((l,i)=>`Policy ${i+1}: ${l.company||'—'} | Face Value: ${l.faceValue||'—'} | Beneficiary: ${l.beneficiary||'—'}`).join('\n') : 'None';
+
+  return `ESTATE PLANNING INTAKE — ROSENBLUM LAW
+Submitted: ${new Date().toLocaleString()}
+${'='.repeat(50)}
+
+PERSONAL INFORMATION
+Full Name: ${data.firstName} ${data.lastName}
+Date of Birth: ${data.dob||'—'}
+SSN: ${data.ssn||'—'}
+Phone: ${data.phone||'—'}
+Email: ${data.email||'—'}
+Address: ${data.address||'—'}, ${data.city||'—'}, NJ ${data.zip||'—'}
+
+MARITAL STATUS
+Status: ${data.maritalStatus||'—'}
+${data.spouseFirst ? `Spouse/Partner: ${data.spouseFirst} ${data.spouseLast} | DOB: ${data.spouseDob||'—'} | SSN: ${data.spouseSsn||'—'}` : ''}
+
+BENEFICIARIES
+${kids}
+
+TRUSTEES
+${trustees}
+
+REAL ESTATE & ASSETS
+${props}
+Other Assets: ${data.otherAssets||'None'}
+
+BANK & INVESTMENT ACCOUNTS
+${banks}
+
+RETIREMENT ACCOUNTS
+${ret}
+
+LIFE INSURANCE
+${life}
+
+HEALTHCARE PROXY
+Primary: ${data.healthcareProxy||'—'} | Relationship: ${data.healthcareProxyRelationship||'—'} | Phone: ${data.healthcareProxyPhone||'—'} | Email: ${data.healthcareProxyEmail||'—'}
+Successor: ${data.healthcareProxySuccessor||'—'} | Relationship: ${data.healthcareProxySuccessorRelationship||'—'} | Phone: ${data.healthcareProxySuccessorPhone||'—'}
+
+FINANCIAL POWER OF ATTORNEY
+Primary Agent: ${data.poaAgent||'—'} | Relationship: ${data.poaAgentRelationship||'—'} | Phone: ${data.poaAgentPhone||'—'} | Email: ${data.poaAgentEmail||'—'}
+Successor Agent: ${data.poaSuccessor||'—'} | Relationship: ${data.poaSuccessorRelationship||'—'} | Phone: ${data.poaSuccessorPhone||'—'}
+
+ADDITIONAL NOTES
+${data.additionalNotes||'None'}
+`;
+}
+
+function buildPDFSummary() {
+  const fmt = (v) => v||'—';
+  const kids = data.children.length ? data.children.map((c,i)=>`<div class="pdf-row"><span class="pdf-label">Beneficiary ${i+1}</span><span class="pdf-value">${fmt(c.name)} ${c.dob?'· DOB: '+c.dob:''}</span></div>`).join('') : '<div class="pdf-row"><span class="pdf-label">Beneficiaries</span><span class="pdf-value">None added</span></div>';
+  const trustees = data.trustees.length ? data.trustees.map((t,i)=>`<div class="pdf-row"><span class="pdf-label">${i===0?'Primary Trustee':'Successor Trustee'}</span><span class="pdf-value">${fmt(t.name)} · ${fmt(t.relationship)} · ${fmt(t.phone)}</span></div>`).join('') : '<div class="pdf-row"><span class="pdf-label">Trustees</span><span class="pdf-value">None added</span></div>';
+  const props = data.realEstate.length ? data.realEstate.map((r,i)=>`<div class="pdf-row"><span class="pdf-label">Property ${i+1}</span><span class="pdf-value">${fmt(r.address)} · ${fmt(r.value)} · ${fmt(r.owner)}</span></div>`).join('') : '<div class="pdf-row"><span class="pdf-label">Properties</span><span class="pdf-value">None added</span></div>';
+  const banks = data.bankAccounts.length ? data.bankAccounts.map((b,i)=>`<div class="pdf-row"><span class="pdf-label">${fmt(b.institution)}</span><span class="pdf-value">${fmt(b.type)} · ${fmt(b.approxValue)} · Owner: ${fmt(b.owner)} · Acct#: ${b.accountNumber||'To be provided'}</span></div>`).join('') : '<div class="pdf-row"><span class="pdf-label">Bank Accounts</span><span class="pdf-value">None added</span></div>';
+  const ret = data.retirement.length ? data.retirement.map((r,i)=>`<div class="pdf-row"><span class="pdf-label">${fmt(r.institution)}</span><span class="pdf-value">${fmt(r.type)} · ${fmt(r.approxValue)} · Acct#: ${r.accountNumber||'To be provided'}</span></div>`).join('') : '<div class="pdf-row"><span class="pdf-label">Retirement</span><span class="pdf-value">None added</span></div>';
+  const life = data.lifeInsurance.length ? data.lifeInsurance.map((l,i)=>`<div class="pdf-row"><span class="pdf-label">${fmt(l.company)}</span><span class="pdf-value">Face Value: ${fmt(l.faceValue)} · Beneficiary: ${fmt(l.beneficiary)}</span></div>`).join('') : '<div class="pdf-row"><span class="pdf-label">Life Insurance</span><span class="pdf-value">None added</span></div>';
+
+  return `
+  <div class="pdf-wrapper print-section">
+    <div class="print-header">
+      <img src="https://rosenblumlaw.com/wp-content/uploads/2019/05/RLF_Hori_Lockup-e1559231927204.png" alt="Rosenblum Law">
+      <div><div class="print-header-text">Estate Planning Intake Summary</div><div class="print-header-sub">Submitted: ${new Date().toLocaleString()} · Confidential — Attorney-Client Privilege</div></div>
+    </div>
+
+    <div class="pdf-section">
+      <div class="pdf-section-title">Personal Information</div>
+      <div class="pdf-row"><span class="pdf-label">Full Name</span><span class="pdf-value">${fmt(data.firstName)} ${fmt(data.lastName)}</span></div>
+      <div class="pdf-row"><span class="pdf-label">Date of Birth</span><span class="pdf-value">${fmt(data.dob)}</span></div>
+      <div class="pdf-row"><span class="pdf-label">Social Security #</span><span class="pdf-value">${fmt(data.ssn)}</span></div>
+      <div class="pdf-row"><span class="pdf-label">Phone</span><span class="pdf-value">${fmt(data.phone)}</span></div>
+      <div class="pdf-row"><span class="pdf-label">Email</span><span class="pdf-value">${fmt(data.email)}</span></div>
+      <div class="pdf-row"><span class="pdf-label">Address</span><span class="pdf-value">${fmt(data.address)}, ${fmt(data.city)}, NJ ${fmt(data.zip)}</span></div>
+      <div class="pdf-row"><span class="pdf-label">Marital Status</span><span class="pdf-value">${fmt(data.maritalStatus)}</span></div>
+      ${data.spouseFirst ? `<div class="pdf-row"><span class="pdf-label">Spouse/Partner</span><span class="pdf-value">${data.spouseFirst} ${data.spouseLast} · DOB: ${fmt(data.spouseDob)}</span></div>` : ''}
+    </div>
+
+    <div class="pdf-section">
+      <div class="pdf-section-title">Beneficiaries</div>
+      ${kids}
+    </div>
+
+    <div class="pdf-section">
+      <div class="pdf-section-title">Trustees</div>
+      ${trustees}
+    </div>
+
+    <div class="pdf-section">
+      <div class="pdf-section-title">Real Estate & Assets</div>
+      ${props}
+      ${data.otherAssets ? `<div class="pdf-row"><span class="pdf-label">Other Assets</span><span class="pdf-value">${data.otherAssets}</span></div>` : ''}
+    </div>
+
+    <div class="pdf-section">
+      <div class="pdf-section-title">Bank & Investment Accounts</div>
+      ${banks}
+    </div>
+
+    <div class="pdf-section">
+      <div class="pdf-section-title">Retirement Accounts</div>
+      ${ret}
+    </div>
+
+    <div class="pdf-section">
+      <div class="pdf-section-title">Life Insurance</div>
+      ${life}
+    </div>
+
+    <div class="pdf-section">
+      <div class="pdf-section-title">Healthcare Proxy</div>
+      <div class="pdf-row"><span class="pdf-label">Primary Proxy</span><span class="pdf-value">${fmt(data.healthcareProxy)} · ${fmt(data.healthcareProxyRelationship)} · ${fmt(data.healthcareProxyPhone)}</span></div>
+      ${data.healthcareProxySuccessor ? `<div class="pdf-row"><span class="pdf-label">Successor Proxy</span><span class="pdf-value">${data.healthcareProxySuccessor} · ${fmt(data.healthcareProxySuccessorRelationship)} · ${fmt(data.healthcareProxySuccessorPhone)}</span></div>` : ''}
+    </div>
+
+    <div class="pdf-section">
+      <div class="pdf-section-title">Financial Power of Attorney</div>
+      <div class="pdf-row"><span class="pdf-label">Primary Agent</span><span class="pdf-value">${fmt(data.poaAgent)} · ${fmt(data.poaAgentRelationship)} · ${fmt(data.poaAgentPhone)}</span></div>
+      ${data.poaSuccessor ? `<div class="pdf-row"><span class="pdf-label">Successor Agent</span><span class="pdf-value">${data.poaSuccessor} · ${fmt(data.poaSuccessorRelationship)} · ${fmt(data.poaSuccessorPhone)}</span></div>` : ''}
+    </div>
+
+    ${data.additionalNotes ? `<div class="pdf-section"><div class="pdf-section-title">Additional Notes</div><div style="font-size:13px;line-height:1.6;color:var(--text)">${data.additionalNotes}</div></div>` : ''}
+
+    <div style="margin-top:20px;padding-top:16px;border-top:1px solid var(--gray-light);font-size:11px;color:var(--gray);text-align:center;">
+      Rosenblum Law — Estate Planning · 777 Passaic Ave Suite #460, Clifton, NJ 07012 · 888-815-3649 · rosenblumlaw.com<br>
+      This document is confidential and protected under attorney-client privilege.
+    </div>
+  </div>
+  <div style="text-align:center;margin-top:16px;" class="no-print">
+    <button class="btn-print" onclick="window.print()">🖨️ Save / Print as PDF</button>
+  </div>`;
+}
+
+async function submitForm() {
+  const card = document.getElementById('mainCard');
+  document.getElementById('progressBar').style.display = 'none';
+
+  // Show loading state
+  card.innerHTML = `<div style="text-align:center;padding:60px 0">
+    <div style="font-size:48px;margin-bottom:20px;">⏳</div>
+    <div class="question-label">Submitting your information...</div>
+    <div class="question-hint">Please wait just a moment.</div>
+  </div>`;
+
+  // Send to Web3Forms → your Gmail
+  try {
+    await fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        access_key: '72170709-209c-4388-8da4-0cfa248766fe',
+        subject: `EP Intake Completed — ${data.firstName} ${data.lastName} · ${new Date().toLocaleDateString()}`,
+        from_name: `${data.firstName} ${data.lastName}`,
+        replyto: data.email,
+        message: buildEmailBody()
+      })
+    });
+  } catch(e) {
+    console.error('Submission error:', e);
+  }
+
+  // Show thank you + PDF summary
+  card.innerHTML = `
+  <div style="text-align:center;padding:20px 0">
     <div class="thankyou-icon">✓</div>
     <div class="thankyou-title">You're All Set!</div>
-    <div class="thankyou-text">Thank you, <strong>${data.firstName||'there'}</strong>. Your information has been submitted to the Rosenblum Law estate planning team.<br><br>Your attorney will review your responses before your consultation so you can get right to work.</div>
-    <div class="summary-box" style="text-align:left">
-      <div class="summary-row"><span class="summary-label">Submitted by</span><span class="summary-value">${data.firstName} ${data.lastName}</span></div>
-      <div class="summary-row"><span class="summary-label">Email</span><span class="summary-value">${data.email||'—'}</span></div>
-      <div class="summary-row"><span class="summary-label">Status</span><span class="summary-value" style="color:var(--success)">✓ Complete</span></div>
-    </div>
+    <div class="thankyou-text">Thank you, <strong>${data.firstName||'there'}</strong>. Your information has been submitted to the Rosenblum Law estate planning team.<br><br>Your attorney will review your responses before your consultation.</div>
     <div class="calendly-cta-thankyou">
       <div class="calendly-cta-title" style="color:var(--white);">📅 Schedule Your Strategy Session</div>
       <div class="calendly-cta-sub">Your next step is to book your consultation with one of our estate planning attorneys.</div>
       <a class="calendly-btn" href="https://calendly.com/d/cthc-j7n-xbv" target="_blank">Book Your Session →</a>
     </div>
-    <p style="font-size:14px;color:var(--gray);margin-bottom:24px;">Questions? Call us at <a href="tel:8888153649" style="color:var(--navy);font-weight:600">888-815-3649</a></p>
-  </div>`;
+    <p style="font-size:14px;color:var(--gray);margin-bottom:8px;">Questions? Call us at <a href="tel:8888153649" style="color:var(--navy);font-weight:600">888-815-3649</a></p>
+  </div>
+  <hr class="section-divider">
+  <div style="text-align:center;margin-bottom:16px;">
+    <div class="question-label" style="font-size:20px;">Your Summary</div>
+    <p class="question-hint" style="margin-bottom:0">Save this for your records — click the button below to print or save as a PDF.</p>
+  </div>
+  ${buildPDFSummary()}`;
 }
 
 function goNext(){if(!validateStep()) return;if(currentStep<STEPS.length-1){currentStep++;render();window.scrollTo({top:0,behavior:'smooth'});}}
